@@ -22,7 +22,6 @@
  inventor.patronage.form.label.code = Código
  inventor.patronage.form.label.legalStuff = Asuntos Legales
  inventor.patronage.form.label.budget = Presupuesto
- inventor.patronage.form.label.creationMoment = Momento de Creación
  inventor.patronage.form.label.startDate = Fecha de Inicio
  inventor.patronage.form.label.endDate = Fecha de Fin
  inventor.patronage.form.label.moreInfo = Más Información

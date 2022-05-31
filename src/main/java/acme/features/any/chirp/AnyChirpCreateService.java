@@ -105,6 +105,12 @@ public class AnyChirpCreateService implements AbstractCreateService<Any, Chirp> 
 			final boolean spam1 = SpamDetector.validateNoSpam(entity.getTitle(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getTitle(), strongSpam, sc.getStrongThreshold());
 			errors.state(request, spam1, "title", "any.chirp.form.label.spam", "spam");
 		}
+		
+		if (!entity.getEmail().equals("") && entity.getEmail() != null) {
+			final boolean spam2 = SpamDetector.validateNoSpam(entity.getEmail(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getEmail(), strongSpam, sc.getStrongThreshold());
+
+			errors.state(request, spam2, "email", "any.chirp.form.label.spam", "spam");
+		}
 
 		boolean confirmation;
 

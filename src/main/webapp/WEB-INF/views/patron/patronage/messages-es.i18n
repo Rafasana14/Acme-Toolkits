@@ -22,7 +22,6 @@
  patron.patronage.form.label.code = Código
  patron.patronage.form.label.legalStuff = Asuntos Legales
  patron.patronage.form.label.budget = Presupuesto
- patron.patronage.form.label.creationMoment = Momento de Creación
  patron.patronage.form.label.startDate = Fecha de Inicio
  patron.patronage.form.label.endDate = Fecha de Fin
  patron.patronage.form.label.period = Periodo

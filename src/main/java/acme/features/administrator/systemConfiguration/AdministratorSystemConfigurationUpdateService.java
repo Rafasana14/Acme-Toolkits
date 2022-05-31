@@ -1,5 +1,8 @@
 package acme.features.administrator.systemConfiguration;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +68,13 @@ public class AdministratorSystemConfigurationUpdateService implements AbstractUp
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
+		
+		if (!errors.hasErrors("systemCurrency")) {
+
+			final boolean availableCurrency = this.validateAvailableCurrency(entity.getSystemCurrency());
+			errors.state(request, availableCurrency, "systemCurrency", "administrator.systemConfiguration.form.error.currency-not-available");
+
+		}
 	}
 
 	@Override
@@ -85,4 +95,11 @@ public class AdministratorSystemConfigurationUpdateService implements AbstractUp
 		}
 	}
 
+	public boolean validateAvailableCurrency(final String currency) {
+
+		final String currencies = this.repository.findAvailableCurrencies();
+		final List<Object> listOfAvailableCurrencies = Arrays.asList((Object[]) currencies.split(";"));
+
+		return listOfAvailableCurrencies.contains(currency);
+	}
 }

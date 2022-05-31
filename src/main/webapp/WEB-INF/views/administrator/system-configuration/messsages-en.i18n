@@ -27,3 +27,5 @@ administrator.systemConfiguration.list.label.weakThreshold = Weak Threshold
 administrator.systemConfiguration.form.label.weakThreshold = Weak Threshold 
 
 administrator.systemConfiguration.form.button.update = Update
+
+administrator.systemConfiguration.form.error.currency-not-available = Currency not available for the system

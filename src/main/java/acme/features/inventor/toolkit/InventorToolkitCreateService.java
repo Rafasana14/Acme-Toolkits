@@ -51,7 +51,7 @@ public class InventorToolkitCreateService implements AbstractCreateService<Inven
 		assert entity != null;
 		assert model != null;
 
-		request.unbind(entity, model, "code", "title", "description", "assemblyNotes", "moreInfo", "draftMode");
+		request.unbind(entity, model, "code", "title", "description", "assemblyNotes", "totalPrice","moreInfo", "draftMode");
 		model.setAttribute("readonly", false);
 	}
 
@@ -109,6 +109,12 @@ public class InventorToolkitCreateService implements AbstractCreateService<Inven
 		if (entity.getAssemblyNotes() != null && !entity.getAssemblyNotes().equals("")) {
 			final boolean spam1 = SpamDetector.validateNoSpam(entity.getAssemblyNotes(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getAssemblyNotes(), strongSpam, sc.getStrongThreshold());
 			errors.state(request, spam1, "assemblyNotes", "inventor.toolkit.form.label.spam", "spam");
+		}
+		
+		if (!entity.getMoreInfo().equals("") && entity.getMoreInfo() != null) {
+			final boolean spam2 = SpamDetector.validateNoSpam(entity.getMoreInfo(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getMoreInfo(), strongSpam, sc.getStrongThreshold());
+
+			errors.state(request, spam2, "moreInfo", "inventor.toolkit.form.label.spam", "spam");
 		}
 
 	}

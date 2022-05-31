@@ -68,7 +68,7 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		assert entity != null;
 		assert model != null;
 
-		request.unbind(entity, model, "status" ,"code", "legalStuff", "budget", "startDate","endDate","moreInfo","published", "creationMoment");
+		request.unbind(entity, model, "status" ,"code", "legalStuff", "budget", "startDate","endDate","moreInfo","published");
 		model.setAttribute("inventors", this.repository.findInventors());
 		
 	}
@@ -136,6 +136,12 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 
 			errors.state(request, spam1, "legalStuff", "patron.patronage.form.label.spam", "spam");
 		}
+		
+		if (!entity.getMoreInfo().equals("") && entity.getMoreInfo() != null) {
+			final boolean spam2 = SpamDetector.validateNoSpam(entity.getMoreInfo(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getMoreInfo(), strongSpam, sc.getStrongThreshold());
+
+			errors.state(request, spam2, "moreInfo", "patron.patronage.form.label.spam", "spam");
+		}
 
 		if (!errors.hasErrors("code")) {
 			Patronage existing;
@@ -179,7 +185,12 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		assert request != null;
 		assert entity != null;
 		
+		Date currentMoment;
+		
+		currentMoment = new Date(System.currentTimeMillis() - 1);
+		entity.setCreationMoment(currentMoment);
 		entity.setPublished(false);
+		
 		this.repository.save(entity);
 		
 	}

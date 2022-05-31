@@ -3,7 +3,10 @@ recordIndex,name,code,technology,description,retail-price,more-info
 1,h,AAA-000-A,java,description-1,EUR 0.10,http://www.example.com
 2,llave,ZAC-999-Z,tecnologia2.3,description-6,USD 532.22,http://www.gatos.com
 3,llave de paso,ZAN-124-Z,techonology,d,"USD 20,000.22",http://www.gatos.com
-4,martillo,AAA-123-A,tapiz,description-5,USD 50.00,http://www.gatos.com
-5,memoria ram2.0,WWW-122,tecnologia mecánica,description 16,GBP 0.01,http://www.gatos.com
-6,memoria SSD,WWW-123-H,tecnologia mecánica,description 15,USD 0.10,http://www.gatos.com
-7,tornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotorr,AAA-001-A,h,description-2,EUR 5.00,http://www.gatos.com
+4,llave inglesa,ZAC-999-A,t,description-7,"EUR 5,321.22",http://www.gatos.com
+5,martillo,AAA-123-A,tapiz,description-5,USD 50.00,http://www.gatos.com
+6,memoria mecánica,QWW-122-H,tecnologia mecánica,description 14,"USD 1.00",http://www.gatos.com
+7,memoria ram2.0,WWW-122,tecnologia mecánica,description 16,GBP 0.01,http://www.gatos.com
+8,memoria SSD,WWW-123-H,tecnologia mecánica,description 15,USD 0.10,http://www.gatos.com
+9,tornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotorr,AAA-001-A,h,description-2,EUR 5.00,http://www.gatos.com
+10,tuerca,ABC-000-B,tecnologia1.0,description-4,"EUR 500,000.00",http://www.gatos.com

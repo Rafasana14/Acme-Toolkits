@@ -23,7 +23,6 @@
  inventor.patronage.form.label.code = Code
  inventor.patronage.form.label.legalStuff = Legal Stuff
  inventor.patronage.form.label.budget = Budget
- inventor.patronage.form.label.creationMoment = Creation Moment
  inventor.patronage.form.label.startDate = Start Date
  inventor.patronage.form.label.endDate = End Date
  inventor.patronage.form.label.period = Period

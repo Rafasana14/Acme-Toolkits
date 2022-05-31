@@ -72,8 +72,7 @@ public class AdministratorAnnouncementCreateService implements AbstractCreateSer
 			result.setTitle("");
 			result.setCreationMoment(moment);
 			result.setBody("");
-			//result.setCritical(false);
-			result.setEmail("");;
+			result.setEmail("");
 
 			return result;
 		}
@@ -100,6 +99,17 @@ public class AdministratorAnnouncementCreateService implements AbstractCreateSer
 			if (entity.getTitle() != null && !entity.getTitle().equals("")) {
 				final boolean spam1 = SpamDetector.validateNoSpam(entity.getTitle(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getTitle(), strongSpam, sc.getStrongThreshold());
 				errors.state(request, spam1, "title", "administrator.announcement.form.label.spam", "spam");
+			}
+			
+			if (entity.getEmail() != null && !entity.getEmail().equals("")) {
+				final boolean spam1 = SpamDetector.validateNoSpam(entity.getEmail(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getEmail(), strongSpam, sc.getStrongThreshold());
+				errors.state(request, spam1, "email", "administrator.announcement.form.label.spam", "spam");
+			}
+			
+			if (entity.getMoreInfo() != null && !entity.getMoreInfo().equals("")) {
+				final boolean spam2 = SpamDetector.validateNoSpam(entity.getMoreInfo(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getMoreInfo(), strongSpam, sc.getStrongThreshold());
+
+				errors.state(request, spam2, "moreInfo", "administrator.announcement.form.label.spam", "spam");
 			}
 
 			boolean confirmation;

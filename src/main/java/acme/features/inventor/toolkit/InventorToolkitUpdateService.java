@@ -110,6 +110,12 @@ public class InventorToolkitUpdateService implements AbstractUpdateService<Inven
 			errors.state(request, spam1, "assemblyNotes", "inventor.toolkit.form.label.spam", "spam");
 		}
 		
+		if (!entity.getMoreInfo().equals("") && entity.getMoreInfo() != null) {
+			final boolean spam2 = SpamDetector.validateNoSpam(entity.getMoreInfo(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getMoreInfo(), strongSpam, sc.getStrongThreshold());
+
+			errors.state(request, spam2, "moreInfo", "inventor.toolkit.form.label.spam", "spam");
+		}
+		
 		if (!errors.hasErrors("code")) {
 			final Toolkit alreadyExists = this.repository.findOneToolkitByCode(entity.getCode());
 			errors.state(request, alreadyExists == null || alreadyExists.getId() == entity.getId(), "code", "inventor.toolkit.form.error.duplicated");

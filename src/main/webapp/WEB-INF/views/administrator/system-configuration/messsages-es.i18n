@@ -27,3 +27,5 @@ administrator.systemConfiguration.list.label.weakThreshold = Umbral Débil
 administrator.systemConfiguration.form.label.weakThreshold = Umbral Débil 
 
 administrator.systemConfiguration.form.button.update = Actualizar
+
+administrator.systemConfiguration.form.error.currency-not-available = Tipo de moneda no disponible en el sistema
