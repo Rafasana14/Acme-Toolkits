@@ -2,24 +2,20 @@
 package acme.features.inventor.chimpum;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import acme.components.CalculateMoneyExchange;
 import acme.entities.Chimpum;
 import acme.entities.Item;
-import acme.entities.ItemType;
-import acme.entities.MoneyExchangeCache;
 import acme.entities.SystemConfiguration;
 import acme.features.administrator.systemConfiguration.AdministratorSystemConfigurationRepository;
 import acme.features.spam.SpamDetector;
-import acme.forms.MoneyExchange;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Errors;
 import acme.framework.controllers.Request;
@@ -40,14 +36,6 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 	protected AdministratorSystemConfigurationRepository	scRepo;
 
 	// AbstractUpdateService<Inventor,Item> interface -----------------
-
-
-	public boolean validateAvailableCurrencyRetailPrice(final Money retailPrice) {
-
-		final String currencies = this.repository.findAvailableCurrencies();
-		final List<Object> listOfAvailableCurrencies = Arrays.asList((Object[]) currencies.split(";"));
-		return listOfAvailableCurrencies.contains(retailPrice.getCurrency());
-	}
 
 	@Override
 	public void validate(final Request<Chimpum> request, final Chimpum entity, final Errors errors) {
@@ -72,35 +60,34 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 			final boolean spam1 = SpamDetector.validateNoSpam(entity.getTitle(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getTitle(), strongSpam, sc.getStrongThreshold());
 			errors.state(request, spam1, "name", "inventor.chimpum.form.label.spam", "spam");
 		}
+
+		if (!errors.hasErrors("startDate")) {
+			errors.state(request, entity.getStartDate().after(entity.getCreationMoment()), "startDate", "inventor.chimpum.form.error.past-start-date");
+		}
 		
-		if (!entity.getMoreInfo().equals("") && entity.getMoreInfo() != null) {
-			final boolean spam2 = SpamDetector.validateNoSpam(entity.getMoreInfo(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getMoreInfo(), strongSpam, sc.getStrongThreshold());
-
-			errors.state(request, spam2, "moreInfo", "inventor.item.form.label.spam", "spam");
+		if (!errors.hasErrors("startDate")) {
+			final Date oneMonthAfterCreationDate = DateUtils.addMonths(entity.getCreationMoment(), 1);
+			errors.state(request, entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "inventor.chimpum.form.error.too-close");
 		}
 
-		if (!errors.hasErrors("code")) {
-
-			final Item existing = this.repository.findOneItemByCode(entity.getCode());
-			errors.state(request, existing.getId() == entity.getId(), "code", "inventor.item.form.error.duplicated");
-
+		if (!errors.hasErrors("endDate")) {
+			errors.state(request, entity.getEndDate().after(entity.getCreationMoment()), "endDate", "inventor.chimpum.form.error.past-end-date");
+		}
+		if (!errors.hasErrors("endDate")) {
+			errors.state(request, entity.getEndDate().after(entity.getStartDate()), "endDate", "inventor.chimpum.form.error.end-date-previous-to-start-date");
+		}
+		if (!errors.hasErrors("endDate")) {
+			final Date oneWeekAfterStartDate = DateUtils.addWeeks(entity.getStartDate(), 1);
+			errors.state(request, entity.getEndDate().equals(oneWeekAfterStartDate) || entity.getEndDate().after(oneWeekAfterStartDate), "endDate", "inventor.chimpum.form.error.insufficient-duration");
 		}
 
-		if (!errors.hasErrors("retailPrice")) {
-
+		if (!errors.hasErrors("budget")) {
 			final Money budget = entity.getBudget();
-			final boolean availableCurrency = this.validateAvailableCurrencyBudget(budget);
-			errors.state(request, availableCurrency, "retailPrice", "inventor.item.form.error.retail-price-currency-not-available");
+			final boolean availableCurrency = this.validateAvailableCurrency(budget);
+			errors.state(request, availableCurrency, "budget", "inventor.chimpum.form.error.budget-currency-not-available");
 
-			if (entity.getType().equals(ItemType.COMPONENT)) {
-				final boolean retailPriceComponentPositive = retailPrice.getAmount() > 0.;
-				errors.state(request, retailPriceComponentPositive, "retailPrice", "inventor.item.form.error.retail-price-component-positive");
-
-			} else if (entity.getType().equals(ItemType.TOOL)) {
-				final boolean retailPriceToolZeroOrPositive = retailPrice.getAmount() >= 0.;
-				errors.state(request, retailPriceToolZeroOrPositive, "retailPrice", "inventor.item.form.error.retail-price-tool-zero-or-positive");
-
-			}
+			final boolean budgetPositive = budget.getAmount() > 0.;
+			errors.state(request, budgetPositive, "budget", "inventor.chimpum.form.error.budget-positive");
 
 		}
 
@@ -109,15 +96,18 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 	@Override
 	public boolean authorise(final Request<Chimpum> request) {
 		assert request != null;
-		boolean result;
+		boolean result = false;
 
-		Item item;
 		int id;
+		Item item;
+		Inventor inventor;
 
 		id = request.getModel().getInteger("id");
-		item = this.repository.findOneItemById(id);
-		result = item.isPublished();
-		return !result;
+		item = this.repository.findOneItemByChimpumId(id);
+		inventor = item.getInventor();
+		result = item.isPublished(); 
+		
+		return !result && request.isPrincipal(inventor);
 	}
 
 	@Override
@@ -126,10 +116,7 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 		assert entity != null;
 		assert errors != null;
 
-		entity.setPublished(false);
-		this.repository.save(entity);
-
-		request.bind(entity, errors, "name", "code", "technology", "description", "retailPrice", "moreInfo");
+		request.bind(entity, errors, "title", "description", "startDate", "endDate", "budget", "moreInfo");
 	}
 
 	@Override
@@ -138,18 +125,18 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 		assert entity != null;
 		assert model != null;
 
-		request.unbind(entity, model, "name", "type", "code", "technology", "description", "retailPrice", "convertedPrice", "moreInfo", "published");
+		request.unbind(entity, model, "title", "description","creationMoment", "startDate", "endDate", "budget", "moreInfo");
 	}
 
 	@Override
 	public Chimpum findOne(final Request<Chimpum> request) {
 		assert request != null;
 
-		Item result;
+		Chimpum result;
 		int id;
 
 		id = request.getModel().getInteger("id");
-		result = this.repository.findOneItemById(id);
+		result = this.repository.findOneChimpumById(id);
 
 		return result;
 
@@ -159,67 +146,19 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 	public void update(final Request<Chimpum> request, final Chimpum entity) {
 		assert request != null;
 		assert entity != null;
-		final Money converted;
-		Money source;
-		String targetCurrency;
-		final MoneyExchange exchange;
-		Calendar today;
-		final Calendar exchangeDate = Calendar.getInstance();
 
-		source = entity.getRetailPrice();
-		targetCurrency = this.repository.findBaseCurrency();
-		today = Calendar.getInstance();
-		exchangeDate.setTime(entity.getExchangeDate());
-
-		if (!(entity.getRetailPrice().getCurrency().equals(targetCurrency))) {
-			exchange = this.getConversion(source, targetCurrency);
-			converted = exchange.getTarget();
-			entity.setExchangeDate(exchange.getDate());
-		} else {
-			converted = source;
-			entity.setExchangeDate(today.getTime());
-		}
-
-		entity.setConvertedPrice(converted);
 		this.repository.save(entity);
 	}
+	
+	
+	//Auxiliary methods
+	
+	private boolean validateAvailableCurrency(final Money budget) {
 
-	public MoneyExchange getConversion(final Money source, final String targetCurrency) {
-		MoneyExchangeCache cache;
-		MoneyExchange exchange;
-		final Calendar date;
+		final String currencies = this.scRepo.findAvailableCurrencies();
+		final List<Object> listOfAvailableCurrencies = Arrays.asList((Object[]) currencies.split(";"));
 
-		date = Calendar.getInstance();
-
-		final Optional<MoneyExchangeCache> opt = this.repository.findCacheBySourceAndTarget(source.getCurrency(), targetCurrency);
-		if (opt.isPresent()) {
-			cache = opt.get();
-			if (Boolean.TRUE.equals(CalculateMoneyExchange.checkCache(cache)))
-				exchange = CalculateMoneyExchange.calculateMoneyExchangeFromCache(source, targetCurrency, cache);
-			else {
-				exchange = CalculateMoneyExchange.computeMoneyExchange(source, targetCurrency);
-
-				date.setTime(exchange.getDate());
-				cache.setDate(date);
-				cache.setRate(exchange.getRate());
-
-				this.repository.save(cache);
-			}
-			return exchange;
-		} else {
-			exchange = CalculateMoneyExchange.computeMoneyExchange(source, targetCurrency);
-
-			date.setTime(exchange.getDate());
-			cache = new MoneyExchangeCache();
-			cache.setDate(date);
-			cache.setRate(exchange.getRate());
-			cache.setSource(source.getCurrency());
-			cache.setTarget(targetCurrency);
-
-			this.repository.save(cache);
-
-			return exchange;
-		}
+		return listOfAvailableCurrencies.contains(budget.getCurrency());
 	}
 
 }

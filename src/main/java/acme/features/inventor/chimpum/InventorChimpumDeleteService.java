@@ -28,14 +28,14 @@ public class InventorChimpumDeleteService implements AbstractDeleteService<Inven
 		assert request != null;
 		boolean result;
 		
-		Item item;
 		int id;
-		
+		Item item;
+		Inventor inventor;
+
 		id = request.getModel().getInteger("id");
-		item = this.repository.findOneItemById(id);
-		final Inventor inventor = item.getInventor();
-		
-		result = item.isPublished();
+		item = this.repository.findOneItemByChimpumId(id);
+		inventor = item.getInventor();
+		result = item.isPublished(); 
 		
 		return !result && request.isPrincipal(inventor);
 	}
@@ -44,11 +44,11 @@ public class InventorChimpumDeleteService implements AbstractDeleteService<Inven
 	public Chimpum findOne(final Request<Chimpum> request) {
 		assert request != null;
 
-		Item result;
+		Chimpum result;
 		int id;
 
 		id = request.getModel().getInteger("id");
-		result = this.repository.findOneItemById(id);
+		result = this.repository.findOneChimpumById(id);
 
 		return result;
 	}
@@ -59,7 +59,7 @@ public class InventorChimpumDeleteService implements AbstractDeleteService<Inven
 		assert entity != null;
 		assert errors != null;
 
-		request.bind(entity, errors, "name", "type", "code","technology","description","retailPrice","moreInfo","published");
+		request.bind(entity, errors, "title", "code", "description", "startDate", "endDate", "budget", "moreInfo");
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class InventorChimpumDeleteService implements AbstractDeleteService<Inven
 		assert entity != null;
 		assert model != null;
 
-		request.unbind(entity, model, "name", "type", "code","technology","description","retailPrice","moreInfo","published");
+		request.unbind(entity, model, "title", "code", "description", "startDate", "endDate", "budget", "moreInfo");
 	}
 
 	@Override

@@ -23,11 +23,12 @@ inventor.item.form.label.retailPrice = Precio Unitario
 inventor.item.form.label.convertedPrice = Precio convertido a moneda base
 inventor.item.form.label.published = Publicar
 inventor.item.form.label.more-info = Más info
-inventor.item.form.button.createTool = Crear Herramienta
-inventor.item.form.button.createComponent = Crear Componente
+inventor.item.form.button.create = Crear
+inventor.item.form.button.create-chimpum = Crear Chimpum
 inventor.item.form.button.update = Actualizar
 inventor.item.form.button.publish = Publicar
 inventor.item.form.button.delete = Eliminar
+inventor.item.form.button.chimpum = Chimpum
 
 inventor.item.form.error.duplicated  = Código existente
 inventor.item.form.error.retail-price-currency-not-available = Tipo de moneda no disponible en el sistema

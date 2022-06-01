@@ -36,6 +36,11 @@
 		<acme:submit code="inventor.item.form.button.update" action="/inventor/item/update"/>
 		<acme:submit code="inventor.item.form.button.publish" action="/inventor/item/publish"/>
 		<acme:submit code="inventor.item.form.button.delete" action="/inventor/item/delete"/>
+		<acme:submit code="inventor.item.form.button.create-chimpum" action="/inventor/chimpum/create?masterId=${id}" />
+	</jstl:if>
+	
+	<jstl:if test="${command == 'show'}">
+		<acme:button code="inventor.item.form.button.chimpum" action="/inventor/chimpum/show?id=${chimpum.id}"/>
 	</jstl:if>
 	
 </acme:form> 

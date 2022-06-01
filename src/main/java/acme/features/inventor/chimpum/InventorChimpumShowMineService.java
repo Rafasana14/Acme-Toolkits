@@ -61,9 +61,18 @@ public class InventorChimpumShowMineService implements AbstractShowService<Inven
 		assert request != null;
 		assert entity != null;
 		assert model != null;
-
+		
+		Item item;
+		int id;
+		final int masterId;
+		
+		id=request.getModel().getInteger("id");
+		item=this.repository.findOneItemByChimpumId(id);
+		masterId=item.getId();
+		
 		request.unbind(entity, model, "title", "code", "description", "startDate", "endDate", "budget", "moreInfo");
-
+		model.setAttribute("masterId", masterId);
+		model.setAttribute("published", item.isPublished());
 	}
 
 }

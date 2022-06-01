@@ -25,9 +25,11 @@ inventor.item.form.label.convertedPrice = Converted Price to Default Currency
 inventor.item.form.label.published = Post
 inventor.item.form.label.more-info = More Info
 inventor.item.form.button.create = Create
+inventor.item.form.button.create-chimpum = Create Chimpum
 inventor.item.form.button.update = Update
 inventor.item.form.button.delete = Delete
 inventor.item.form.button.publish = Publish
+inventor.item.form.button.chimpum = Chimpum
 
 inventor.item.form.error.duplicated  = Existing code
 inventor.item.form.error.retail-price-currency-not-available = Currency not available for the system
