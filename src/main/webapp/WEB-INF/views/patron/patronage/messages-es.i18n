@@ -49,7 +49,9 @@
  patron.patronage.form.error.end-date-previous-to-start-date = La fecha de fin debe ser posterior a la fecha de inicio
  patron.patronage.form.error.too-close = La fecha de inicio es demasiado cercana a la de creación (mínimo 1 mes de separación)
  patron.patronage.form.error.insufficient-duration = El patrocinio debe durar al menos un mes
- patron.patronage.form.error.minimum-budget = El presupuesto debe ser mayor o igual a 1
+ patron.patronage.form.error.budget-positive = El presupuesto debe ser mayor o igual que 1
+ patron.patronage.form.error.currency-not-available = Divisa no disponible
+ 
  patron.patronage.form.button.create = Crear
  patron.patronage.form.button.update = Actualizar
  patron.patronage.form.button.delete = Eliminar

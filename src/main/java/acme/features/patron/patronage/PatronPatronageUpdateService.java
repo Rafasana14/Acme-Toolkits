@@ -1,5 +1,6 @@
 package acme.features.patron.patronage;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ import acme.features.spam.SpamDetector;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Errors;
 import acme.framework.controllers.Request;
+import acme.framework.datatypes.Money;
 import acme.framework.services.AbstractUpdateService;
 import acme.roles.Patron;
 
@@ -135,7 +137,13 @@ public class PatronPatronageUpdateService implements AbstractUpdateService<Patro
 		
 
 		if (!errors.hasErrors("budget")) {
-			errors.state(request, entity.getBudget().getAmount() >= 1, "budget", "patron.patronage.form.error.minimum-budget");
+
+			final Money budget = entity.getBudget();
+			final boolean availableCurrency = this.validateAvailableCurrency(budget);
+			errors.state(request, availableCurrency, "budget", "patron.patronage.form.error.currency-not-available");
+
+			final boolean budgetPositive = budget.getAmount() > 0.;
+			errors.state(request, budgetPositive, "budget", "patron.patronage.form.error.budget-positive");
 		}
 		
 	}
@@ -147,5 +155,14 @@ public class PatronPatronageUpdateService implements AbstractUpdateService<Patro
 
 		this.repository.save(entity);
 	}
+	
+	public boolean validateAvailableCurrency(final Money money) {
+
+		final String currencies = this.scRepo.findAvailableCurrencies();
+		final List<Object> listOfAvailableCurrencies = Arrays.asList((Object[]) currencies.split(";"));
+
+		return listOfAvailableCurrencies.contains(money.getCurrency());
+	}
+
 
 }
