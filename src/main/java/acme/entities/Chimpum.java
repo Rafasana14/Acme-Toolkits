@@ -40,11 +40,11 @@ public class Chimpum extends AbstractEntity{
 	
 	@NotBlank
 	@Length(min=1,max = 100)
-	protected String title;
+	protected String 			title;
 	
 	@NotBlank
 	@Length(min=1,max=255)
-	protected String description;
+	protected String 			description;
 	
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
