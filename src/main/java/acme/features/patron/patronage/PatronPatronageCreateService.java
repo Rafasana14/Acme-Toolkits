@@ -105,7 +105,6 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		
 
 		result.setPatron(patron);
-		result.setCreationMoment(moment);
 		result.setStatus(PatronageStatus.PROPOSED);
 		result.setCode("");
 		result.setLegalStuff("");
@@ -122,6 +121,11 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
+		
+		Date moment;
+		
+		moment = new Date(System.currentTimeMillis() - 1);
+		entity.setCreationMoment(moment);
 		
 		final SystemConfiguration sc = this.scRepo.findSystemConfigurationById();
 		final String[] parts = sc.getStrongSpam().split(";");
@@ -185,10 +189,6 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		assert request != null;
 		assert entity != null;
 		
-		Date currentMoment;
-		
-		currentMoment = new Date(System.currentTimeMillis() - 1);
-		entity.setCreationMoment(currentMoment);
 		entity.setPublished(false);
 		
 		this.repository.save(entity);
