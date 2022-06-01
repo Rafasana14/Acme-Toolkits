@@ -17,7 +17,6 @@ import acme.entities.ItemType;
 import acme.entities.MoneyExchangeCache;
 import acme.entities.SystemConfiguration;
 import acme.features.administrator.systemConfiguration.AdministratorSystemConfigurationRepository;
-import acme.features.authenticated.moneyExchange.AuthenticatedMoneyExchangePerformService;
 import acme.features.spam.SpamDetector;
 import acme.forms.MoneyExchange;
 import acme.framework.components.models.Model;
@@ -111,13 +110,6 @@ public class InventorItemUpdateService implements AbstractUpdateService<Inventor
 
 	}
 
-
-	@Autowired
-	protected AuthenticatedMoneyExchangePerformService exchangeService;
-
-	// AbstractUpdateService<Authenticated, Worker> interface -----------------
-
-
 	@Override
 	public boolean authorise(final Request<Item> request) {
 		assert request != null;
@@ -125,11 +117,14 @@ public class InventorItemUpdateService implements AbstractUpdateService<Inventor
 
 		Item item;
 		int id;
-
+		
 		id = request.getModel().getInteger("id");
 		item = this.repository.findOneItemById(id);
+		final Inventor inventor = item.getInventor();
+		
 		result = item.isPublished();
-		return !result;
+		
+		return !result && request.isPrincipal(inventor);
 	}
 
 	@Override

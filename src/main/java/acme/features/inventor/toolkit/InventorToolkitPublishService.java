@@ -35,10 +35,15 @@ public class InventorToolkitPublishService implements AbstractUpdateService<Inve
 	public boolean authorise(final Request<Toolkit> request) {
 		assert request != null;
 		
-		final int id = request.getModel().getInteger("id");
-		final Toolkit toolkit = this.repository.findOneToolkitById(id);
+		boolean checkPublished = false;
+		final int id;
+		Toolkit toolkit;
 		
-		return request.isPrincipal(toolkit.getInventor()) && toolkit.isDraftMode();
+		id = request.getModel().getInteger("id");
+		toolkit = this.repository.findOneToolkitById(id);
+		checkPublished = (toolkit != null && toolkit.isDraftMode()) && request.isPrincipal(toolkit.getInventor());
+		
+		return checkPublished;
 	}
 
 	@Override

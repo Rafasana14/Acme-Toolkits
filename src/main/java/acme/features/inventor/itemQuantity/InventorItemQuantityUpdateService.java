@@ -49,7 +49,7 @@ public class InventorItemQuantityUpdateService implements AbstractUpdateService<
 
 		id = request.getModel().getInteger("id");
 		quantity = this.repository.findItemQuantityById(id);
-		result = quantity.getToolkit().isDraftMode();
+		result = quantity.getToolkit().isDraftMode() && request.isPrincipal(quantity.getToolkit().getInventor());
 		return result;
 	}
 

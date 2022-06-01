@@ -40,7 +40,7 @@ public class InventorItemCreateService implements AbstractCreateService<Inventor
 	@Override
 	public boolean authorise(final Request<Item> request) {
 		assert request != null;
-		request.getModel();
+
 		return true;
 	}
 

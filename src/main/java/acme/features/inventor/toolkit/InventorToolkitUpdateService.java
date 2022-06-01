@@ -14,7 +14,6 @@ import acme.features.spam.SpamDetector;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Errors;
 import acme.framework.controllers.Request;
-import acme.framework.entities.Principal;
 import acme.framework.services.AbstractUpdateService;
 import acme.roles.Inventor;
 
@@ -31,21 +30,15 @@ public class InventorToolkitUpdateService implements AbstractUpdateService<Inven
 	public boolean authorise(final Request<Toolkit> request) {
 		assert request != null;
 		
-		final boolean result;
-		int id;
-		int inventorId;
+		boolean checkPublished = false;
+		final int id;
 		Toolkit toolkit;
-		final Principal principal;
-
+		
 		id = request.getModel().getInteger("id");
 		toolkit = this.repository.findOneToolkitById(id);
-		principal = request.getPrincipal();
-		inventorId=principal.getActiveRoleId();
+		checkPublished = (toolkit != null && toolkit.isDraftMode()) && request.isPrincipal(toolkit.getInventor());
 		
-
-
-		result = toolkit.getInventor().getId()==inventorId;
-		return result;
+		return checkPublished;
 	}
 
 	@Override

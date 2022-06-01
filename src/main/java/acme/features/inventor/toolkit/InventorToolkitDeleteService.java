@@ -23,7 +23,16 @@ public class InventorToolkitDeleteService implements AbstractDeleteService<Inven
 	@Override
 	public boolean authorise(final Request<Toolkit> request) {
 		assert request != null;
-		return true;
+		
+		boolean checkPublished = false;
+		final int id;
+		Toolkit toolkit;
+		
+		id = request.getModel().getInteger("id");
+		toolkit = this.repository.findOneToolkitById(id);
+		checkPublished = (toolkit != null && toolkit.isDraftMode()) && request.isPrincipal(toolkit.getInventor());
+		
+		return checkPublished;
 	}
 
 	@Override

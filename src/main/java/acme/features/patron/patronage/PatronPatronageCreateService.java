@@ -38,6 +38,7 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 	@Override
 	public boolean authorise(final Request<Patronage> request) {
 		assert request != null;
+		
 		return true;
 	}
 

@@ -1,8 +1,8 @@
 recordIndex,name,code,technology,description,retail-price,more-info
-0,carcasa,ZAN-123-Z,techonology3.4,dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd,"USD 2.22",http://www.gatos.com
+0,carcasa,ZAN-123-Z,tecnologia nuclear,dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd,USD 2.22,http://www.gatos.com
 1,component22,SAD-132-I,tecnologia biológica,description 22,"EUR 44,441,237.64",http://www.gatos.com
 2,component22,SAD-133-I,tecnologia biológica,description 22,"EUR 4,000,000.01",http://www.gatos.com
-3,componente1,AAA-979-D,tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt,description-5,USD 50.22,http://www.gatos.com
+3,componente1,AAA-979-D,tecnologia nuclear,description-5,USD 50.22,http://www.gatos.com
 4,correa mediana,ZQQ-000-Y,tecnologia nuclear,description 12,USD 0.00,http://www.gatos.com
 5,puerto,RST-112-X,tecnologia eléctrica,description 17,EUR 35.01,http://www.gatos.com
 6,puerto,RRD-812-R,tecnologia eléctrica,description 19,EUR 44.44,http://www.gatos.com
