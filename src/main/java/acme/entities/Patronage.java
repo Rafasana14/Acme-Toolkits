@@ -48,7 +48,6 @@ public class Patronage extends AbstractEntity{
 	
 	@NotNull
 	@Valid
-	
 	protected Money 			budget;
 	
 	

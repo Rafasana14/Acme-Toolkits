@@ -34,5 +34,10 @@
  administrator.administratordashboard.form.label.minProposedPatronages = Minimum Budget of Proposed Patronages
  administrator.administratordashboard.form.label.averageProposedPatronages = Average Budget of Proposed Patronages
  administrator.administratordashboard.form.label.deviationProposedPatronages = Deviation Budged of Proposed Patronages
+ administrator.administratordashboard.form.label.ratioOfChimpums = Ratio of ARTEFACTS with CHIMPUM
+ administrator.administratordashboard.form.label.maxBudgetOfChimpums = Maximum Budget of CHIMPUMS
+ administrator.administratordashboard.form.label.minBudgetOfChimpums = Minimum Budget of CHIMPUMS
+ administrator.administratordashboard.form.label.averageBudgetOfChimpums = Average Budget of CHIMPUMS
+ administrator.administratordashboard.form.label.deviationBudgetOfChimpums = Deviation Budged of CHIMPUMS
  
  

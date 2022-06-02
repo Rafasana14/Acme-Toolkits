@@ -62,6 +62,7 @@ master.menu.inventor = Inventor
 master.menu.inventor.component.list-mine = List my components
 master.menu.inventor.tool.list-mine = List my tools
 master.menu.inventor.toolkit.list = List my toolkits
+master.menu.inventor.chimpum.list-mine = List my chimpums
 master.menu.inventor.my-patronage-reports = List my patronage reports
 master.menu.inventor.patronage.list = List my patronages 
 master.menu.patron.dashboard = Dashboard

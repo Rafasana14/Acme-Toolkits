@@ -1,0 +1,36 @@
+# i18n-en.i18n
+#
+# Copyright (C) 2012-2022 Rafael Corchuelo.
+#
+# In keeping with the traditional purpose of furthering education and research, it is
+# the policy of the copyright owner to permit non-commercial use and redistribution of
+# this software. It has been tested carefully, but it is not guaranteed for any particular
+# purposes.  The copyright owner does not offer any warranties or representations, nor do
+# they accept any liabilities with respect to them.
+
+
+inventor.chimpum.list.label.code = Code
+inventor.chimpum.list.label.title = Title
+inventor.chimpum.list.label.budget = Budget
+
+inventor.chimpum.form.label.code = Code
+inventor.chimpum.form.label.title = Title
+inventor.chimpum.form.label.description = Description
+inventor.chimpum.form.label.creationMoment = Creation Moment
+inventor.chimpum.form.label.startDate = Start date
+inventor.chimpum.form.label.endDate = End date
+inventor.chimpum.form.label.budget = Budget
+inventor.chimpum.form.label.more-info = More information
+inventor.chimpum.form.button.update = Update
+inventor.chimpum.form.button.delete = Delete
+inventor.chimpum.form.button.create = Create
+inventor.chimpum.form.button.item = Tool/Component
+
+inventor.chimpum.form.label.spam = This is a spam
+inventor.chimpum.form.error.duplicated = Existing code
+inventor.chimpum.form.error.too-close = The start date is too close to creation moment (at least 1 month between them). Minimum date: {0}
+inventor.chimpum.form.error.insufficient-duration = The end date must be at least one week later than the start date. Minimum date: {0}
+inventor.chimpum.form.error.budget-positive = The budget must be equals or higher than 1
+inventor.chimpum.form.error.budget-currency-not-available = Currency not available for the system
+inventor.chimpum.form.error.pattern = Must match pattern {0}. Creation date will be added to the code automatically
+inventor.chimpum.form.error.null-start-date = May not be null

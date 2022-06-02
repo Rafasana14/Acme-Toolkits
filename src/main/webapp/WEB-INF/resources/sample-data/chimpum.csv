@@ -1,0 +1,11 @@
+key,code,creation-moment,title,description,startDate,endDate,budget,more-info
+chimpum-01,bbb,2000/01/01 00:04,New chimpum,I want to create new chimpum,2000/02/01 00:00,2000/02/08 00:00,EUR 10.0,http://lichess.org
+chimpum-02,aaa,2001/02/21 22:00,New chimpum for CC,I really like create chimpums,2001/04/22 22:20,2002/02/21 22:00,EUR 100.0,null
+chimpum-03,ccc,2010/04/12 23:59,Chimpum,What will be a chimpum?,2010/06/12 23:59,2010/06/20 00:00,EUR 34.56,http://www.acme-jobs.com/discount
+chimpum-04,abc,2009/05/23 18:30,Title of new C,We will know as soon as possible what chimpum will be,2009/06/27 18:40,2009/08/23 18:30,GBP 10.2,null
+chimpum-05,abc,2012/06/05 07:00,Title for CC,I hope to pass CC,2012/07/05 07:00,2012/08/01 07:10,USD 1234.29,null
+chimpum-06,abc,2021/07/30 06:45,I want to pass CC,ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt,2021/08/30 06:45,2021/10/30 06:45,EUR 230.0,null
+chimpum-07,abc,2019/08/26 01:23,I like CC,h,2019/09/30 01:23,2019/11/26 01:23,EUR 2356.12,null
+chimpum-08,abc,2017/09/23 10:00,Best title ever,This is the best chimpum ever,2017/10/25 10:00,2017/11/23 10:00,GBP 2356.12,null
+chimpum-09,abc,2004/10/07 14:32,Title number nine,New chimpum on system,2004/11/07 14:32,2004/11/20 14:32,EUR 56.12,null
+chimpum-10,abc,1971/11/01 08:55,New best titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee,This is the newest announcement in the system.,1971/12/01 08:55,2000/12/07 00:00,USD 43.44,null

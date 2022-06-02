@@ -1,24 +1,26 @@
-key,key:inventor,name,type,code,technology,description,retail-price,exchangeDate,more-info,published
-item-01,inventor-01,h,TOOL,AAA-000-A,java,description-1,EUR 0.1,2000/01/01 00:00,http://www.example.com,true
-item-02,inventor-02,tornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotorr,TOOL,AAA-001-A,java,description-2,EUR 5,2000/01/01 00:00,http://www.gatos.com,true
-item-03,inventor-03,pieza2,COMPONENT,AAA-002-A,java,description-3,USD 12,2000/01/01 00:00,http://www.s.com,false
-item-04,inventor-04,tuerca,TOOL,ABC-000-B,java,description-4,EUR 500000,2000/01/01 00:00,http://www.gatos.com,true
-item-05,inventor-04,martillo,TOOL,AAA-123-A,java,description-5,USD 50,2000/01/01 00:00,http://www.gatos.com,true
-item-06,inventor-07,llave,TOOL,ZAC-999-Z,java,description-6,USD 532.22,2000/01/01 00:00,http://www.gatos.com,true
-item-07,inventor-01,llave inglesa,TOOL,ZAC-999-A,java,description-7,EUR 5321.22,2000/01/01 00:00,http://www.gatos.com,true
-item-08,inventor-02,componente1,COMPONENT,AAA-979-D,tecnologia nuclear,description-5,USD 50.22,2000/01/01 00:00,http://www.gatos.com,true
-item-09,inventor-03,llave de paso,TOOL,ZAN-124-Z,tecnologia nuclear,d,USD 20000.22,2000/01/01 00:00,http://www.gatos.com,true
-item-10,inventor-04,carcasa,COMPONENT,ZAN-123-Z,tecnologia nuclear,dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd,USD 2.22,2000/01/01 00:00,http://www.gatos.com,true
-item-11,inventor-02,correa,TOOL,ZFQ-243-Y,tecnologia nuclear,description 11,EUR 0,2000/01/01 00:00,http://www.gatos.com,true
-item-12,inventor-05,correa mediana,COMPONENT,ZQQ-000-Y,tecnologia nuclear,description 12,USD 00.00,2000/01/01 00:00,http://www.gatos.com,true
-item-13,inventor-03,memoria ram3.0,COMPONENT,QQQ-142-H,tecnologia mecánica,description 13,GBP 10.00,2000/01/01 00:00,http://www.gatos.com,false
-item-14,inventor-01,memoria mecánica,TOOL,QWW-122-H,tecnologia mecánica,description 14,USD 01.00,2000/01/01 00:00,http://www.gatos.com,true
-item-15,inventor-06,memoria SSD,TOOL,WWW-123-H,tecnologia mecánica,description 15,USD 00.10,2000/01/01 00:00,http://www.gatos.com,true
-item-16,inventor-03,memoria ram2.0,TOOL,WWW-122,tecnologia mecánica,description 16,GBP 00.01,2000/01/01 00:00,http://www.gatos.com,true
-item-17,inventor-06,puerto,COMPONENT,RST-112-X,tecnologia eléctrica,description 17,EUR 35.01,2000/01/01 00:00,http://www.gatos.com,true
-item-18,inventor-07,puerto2.0,TOOL,RST-112-Y,tecnologia eléctrica,description 18,USD 35.40,2000/01/01 00:00,http://www.gatos.com,false
-item-19,inventor-06,puerto,COMPONENT,RRD-812-R,tecnologia eléctrica,description 19,EUR 44.44,2000/01/01 00:00,http://www.gatos.com,true
-item-20,inventor-06,puerto,COMPONENT,TWE-132-J,tecnologia eléctrica,description 20,USD 09.09,2000/01/01 00:00,http://www.gatos.com,true
-item-21,inventor-06,puerto usb,COMPONENT,RRR-812-R,tecnologia eléctrica,description 21,USD 999999999.99,2000/01/01 00:00,http://www.gatos.com,false
-item-22,inventor-05,component22,COMPONENT,SAD-133-I,tecnologia biológica,description 22,EUR 4000000.01,2000/01/01 00:00,http://www.gatos.com,true
-item-23,inventor-05,component22,COMPONENT,SAD-132-I,tecnologia biológica,description 22,EUR 44441237.64,2000/01/01 00:00,http://www.gatos.com,true
+key,key:inventor,name,type,code,technology,description,retail-price,exchangeDate,more-info,published,key:chimpum
+item-01,inventor-01,h,TOOL,AAA-000-A,java,description-1,EUR 0.1,2000/01/01 00:00,http://www.example.com,true,chimpum-01
+item-02,inventor-02,tornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotornillotorr,TOOL,AAA-001-A,h,description-2,EUR 5,2000/01/01 00:00,http://www.gatos.com,true,chimpum-06
+item-03,inventor-03,pieza2,COMPONENT,AAA-002-A,láser,description-3,USD 12,2000/01/01 00:00,http://www.s.com,false,chimpum-04
+item-04,inventor-04,tuerca,TOOL,ABC-000-B,tecnologia1.0,description-4,EUR 500000,2000/01/01 00:00,http://www.gatos.com,true,chimpum-05
+item-05,inventor-04,martillo,TOOL,AAA-123-A,tapiz,description-5,USD 50,2000/01/01 00:00,http://www.gatos.com,true,null
+item-06,inventor-07,llave,TOOL,ZAC-999-Z,tecnologia2.3,description-6,USD 532.22,2000/01/01 00:00,http://www.gatos.com,true,chimpum-10
+item-07,inventor-01,llave inglesa,TOOL,ZAC-999-A,t,description-7,EUR 5321.22,2000/01/01 00:00,http://www.gatos.com,true,chimpum-02
+item-08,inventor-02,componente1,COMPONENT,AAA-979-D,tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt,description-5,USD 50.22,2000/01/01 00:00,http://www.gatos.com,true,chimpum-07
+item-09,inventor-03,llave de paso,TOOL,ZAN-124-Z,techonology,d,USD 20000.22,2000/01/01 00:00,http://www.gatos.com,true,null
+item-10,inventor-04,carcasa,COMPONENT,ZAN-123-Z,techonology3.4,dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd,USD 2.22,2000/01/01 00:00,http://www.gatos.com,true,null
+item-11,inventor-02,correa,TOOL,ZFQ-243-Y,tecnologia nuclear,description 11,EUR 0,2000/01/01 00:00,http://www.gatos.com,true,chimpum-08
+item-12,inventor-05,correa mediana,COMPONENT,ZQQ-000-Y,tecnologia nuclear,description 12,USD 00.00,2000/01/01 00:00,http://www.gatos.com,true,null
+item-13,inventor-03,memoria ram3.0,COMPONENT,QQQ-142-H,tecnologia mecánica,description 13,GBP 10.00,2000/01/01 00:00,http://www.gatos.com,false,chimpum-09
+item-14,inventor-01,memoria mecánica,TOOL,QWW-122-H,tecnologia mecánica,description 14,USD 01.00,2000/01/01 00:00,http://www.gatos.com,false,chimpum-03
+item-15,inventor-06,memoria SSD,TOOL,WWW-123-H,tecnologia mecánica,description 15,USD 00.10,2000/01/01 00:00,http://www.gatos.com,true,null
+item-16,inventor-03,memoria ram2.0,TOOL,WWW-122,tecnologia mecánica,description 16,GBP 00.01,2000/01/01 00:00,http://www.gatos.com,true,null
+item-17,inventor-06,puerto,COMPONENT,RST-112-X,tecnologia eléctrica,description 17,EUR 35.01,2000/01/01 00:00,http://www.gatos.com,true,null
+item-18,inventor-07,puerto2.0,TOOL,RST-112-Y,tecnologia eléctrica,description 18,USD 35.40,2000/01/01 00:00,http://www.gatos.com,false,null
+item-19,inventor-06,puerto,COMPONENT,RRD-812-R,tecnologia eléctrica,description 19,EUR 44.44,2000/01/01 00:00,http://www.gatos.com,true,null
+item-20,inventor-06,puerto,COMPONENT,TWE-132-J,tecnologia eléctrica,description 20,USD 09.09,2000/01/01 00:00,http://www.gatos.com,true,null
+item-21,inventor-06,puerto usb,COMPONENT,RRR-812-R,tecnologia eléctrica,description 21,USD 999999999.99,2000/01/01 00:00,http://www.gatos.com,false,null
+item-22,inventor-05,component22,COMPONENT,SAD-133-I,tecnologia biológica,description 22,EUR 4000000.01,2000/01/01 00:00,http://www.gatos.com,true,null
+item-23,inventor-05,component22,COMPONENT,SAD-132-I,tecnologia biológica,description 22,EUR 44441237.64,2000/01/01 00:00,http://www.gatos.com,true,null
+item-24,inventor-01,mazo,TOOL,ZZZ-000,tecnologia mecánica,description 14,USD 01.00,2000/01/01 00:00,http://www.gatos.com,false,null
+item-25,inventor-01,broca,COMPONENT,ZZZ-001,tecnologia mecánica,description 14,USD 01.00,2000/01/01 00:00,http://www.gatos.com,false,null
