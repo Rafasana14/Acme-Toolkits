@@ -102,4 +102,25 @@ public interface AdministratorDashboardRepository extends AbstractRepository{
 	@Query("select max(p.budget.amount) from Patronage p where p.status = acme.entities.PatronageStatus.DENIED ")
 	Double maxBudgetDeniedPatronages();
 	
+	//Chimpums
+	//Ratio
+	
+	@Query("select count(i.chimpum) from Item i where i.chimpum.id != null ")
+	Integer getArtefactWithChimpum();
+	
+	@Query("select count(i) from Item i") // where type==Artefact")
+	Integer getTotalArtefacts();
+	
+	@Query("select avg(i.chimpum.budget.amount),i.chimpum.budget.currency from Item i "/** where i.type = 'COMPONENT'*/+ "GROUP BY i.chimpum.budget.currency")
+	List<Object[]> averageBudgetOfChimpums();
+	
+	@Query("select max(i.chimpum.budget.amount),i.chimpum.budget.currency from Item i "/** where i.type = 'COMPONENT'*/+ "GROUP BY i.chimpum.budget.currency")
+	List<Object[]> maxBudgetOfChimpums();
+	
+	@Query("select min(i.chimpum.budget.amount),i.chimpum.budget.currency from Item i "/** where i.type = 'COMPONENT'*/+ "GROUP BY i.chimpum.budget.currency")
+	List<Object[]> minBudgetOfChimpums();
+	
+	@Query("select stddev(i.chimpum.budget.amount),i.chimpum.budget.currency from Item i "/** where i.type = 'COMPONENT'*/+ "GROUP BY i.chimpum.budget.currency")
+	List<Object[]> deviationBudgetOfChimpums();
+	
 }

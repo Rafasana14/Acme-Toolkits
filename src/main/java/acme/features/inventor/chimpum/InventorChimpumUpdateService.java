@@ -37,6 +37,33 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 
 	// AbstractUpdateService<Inventor,Item> interface -----------------
 
+
+	@Override
+	public boolean authorise(final Request<Chimpum> request) {
+		assert request != null;
+		boolean result = false;
+
+		int id;
+		Item item;
+		Inventor inventor;
+
+		id = request.getModel().getInteger("id");
+		item = this.repository.findOneItemByChimpumId(id);
+		inventor = item.getInventor();
+		result = item.isPublished();
+
+		return !result && request.isPrincipal(inventor);
+	}
+
+	@Override
+	public void bind(final Request<Chimpum> request, final Chimpum entity, final Errors errors) {
+		assert request != null;
+		assert entity != null;
+		assert errors != null;
+
+		request.bind(entity, errors, "title", "description", "startDate", "endDate", "budget", "moreInfo");
+	}
+
 	@Override
 	public void validate(final Request<Chimpum> request, final Chimpum entity, final Errors errors) {
 		assert request != null;
@@ -58,27 +85,17 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 
 		if (entity.getTitle() != null && !entity.getTitle().equals("")) {
 			final boolean spam1 = SpamDetector.validateNoSpam(entity.getTitle(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getTitle(), strongSpam, sc.getStrongThreshold());
-			errors.state(request, spam1, "name", "inventor.chimpum.form.label.spam", "spam");
+			errors.state(request, spam1, "title", "inventor.chimpum.form.label.spam", "spam");
 		}
 
-		if (!errors.hasErrors("startDate")) {
-			errors.state(request, entity.getStartDate().after(entity.getCreationMoment()), "startDate", "inventor.chimpum.form.error.past-start-date");
-		}
-		
 		if (!errors.hasErrors("startDate")) {
 			final Date oneMonthAfterCreationDate = DateUtils.addMonths(entity.getCreationMoment(), 1);
-			errors.state(request, entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "inventor.chimpum.form.error.too-close");
+			errors.state(request, entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "inventor.chimpum.form.error.too-close",oneMonthAfterCreationDate);
 		}
 
-		if (!errors.hasErrors("endDate")) {
-			errors.state(request, entity.getEndDate().after(entity.getCreationMoment()), "endDate", "inventor.chimpum.form.error.past-end-date");
-		}
-		if (!errors.hasErrors("endDate")) {
-			errors.state(request, entity.getEndDate().after(entity.getStartDate()), "endDate", "inventor.chimpum.form.error.end-date-previous-to-start-date");
-		}
-		if (!errors.hasErrors("endDate")) {
+		if (!errors.hasErrors("endDate") && !errors.hasErrors("startDate")) {
 			final Date oneWeekAfterStartDate = DateUtils.addWeeks(entity.getStartDate(), 1);
-			errors.state(request, entity.getEndDate().equals(oneWeekAfterStartDate) || entity.getEndDate().after(oneWeekAfterStartDate), "endDate", "inventor.chimpum.form.error.insufficient-duration");
+			errors.state(request, entity.getEndDate().equals(oneWeekAfterStartDate) || entity.getEndDate().after(oneWeekAfterStartDate), "endDate", "inventor.chimpum.form.error.insufficient-duration",oneWeekAfterStartDate);
 		}
 
 		if (!errors.hasErrors("budget")) {
@@ -94,38 +111,21 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 	}
 
 	@Override
-	public boolean authorise(final Request<Chimpum> request) {
-		assert request != null;
-		boolean result = false;
-
-		int id;
-		Item item;
-		Inventor inventor;
-
-		id = request.getModel().getInteger("id");
-		item = this.repository.findOneItemByChimpumId(id);
-		inventor = item.getInventor();
-		result = item.isPublished(); 
-		
-		return !result && request.isPrincipal(inventor);
-	}
-
-	@Override
-	public void bind(final Request<Chimpum> request, final Chimpum entity, final Errors errors) {
-		assert request != null;
-		assert entity != null;
-		assert errors != null;
-
-		request.bind(entity, errors, "title", "description", "startDate", "endDate", "budget", "moreInfo");
-	}
-
-	@Override
 	public void unbind(final Request<Chimpum> request, final Chimpum entity, final Model model) {
 		assert request != null;
 		assert entity != null;
 		assert model != null;
 
-		request.unbind(entity, model, "title", "description","creationMoment", "startDate", "endDate", "budget", "moreInfo");
+		final int id;
+		final Item item;
+		boolean published;
+
+		id = request.getModel().getInteger("id");
+		item = this.repository.findOneItemByChimpumId(id);
+		published = item.isPublished();
+
+		request.unbind(entity, model, "title", "description", "creationMoment", "startDate", "endDate", "budget", "moreInfo");
+		model.setAttribute("published", published);
 	}
 
 	@Override
@@ -149,10 +149,9 @@ public class InventorChimpumUpdateService implements AbstractUpdateService<Inven
 
 		this.repository.save(entity);
 	}
-	
-	
+
 	//Auxiliary methods
-	
+
 	private boolean validateAvailableCurrency(final Money budget) {
 
 		final String currencies = this.scRepo.findAvailableCurrencies();

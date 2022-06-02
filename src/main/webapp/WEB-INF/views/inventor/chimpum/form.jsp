@@ -32,6 +32,10 @@
 		path="title" />
 	<acme:input-textarea code="inventor.chimpum.form.label.description"
 		path="description" />
+	<jstl:if test="${command == 'update'}">
+		<acme:input-moment code="inventor.chimpum.form.label.creationMoment"
+		path="creationMoment" readonly="true"/>
+	</jstl:if>
 	<acme:input-moment code="inventor.chimpum.form.label.startDate"
 		path="startDate" />
 	<acme:input-moment code="inventor.chimpum.form.label.endDate"
@@ -56,9 +60,9 @@
 			<acme:submit code="inventor.chimpum.form.button.create"
 				action="/inventor/chimpum/create?masterId=${masterId}" />
 		</jstl:when>
-		<jstl:when test="${command == 'show'}">
-			<acme:button code="inventor.chimpum.form.button.item"
-				action="/inventor/item/show?id=${masterId}" />
-		</jstl:when>
 	</jstl:choose>
+	<jstl:if test="${command == 'show'}">
+		<acme:button code="inventor.chimpum.form.button.item"
+			action="/inventor/item/show?id=${masterId}" />
+	</jstl:if>
 </acme:form>

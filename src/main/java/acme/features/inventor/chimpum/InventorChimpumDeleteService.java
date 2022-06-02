@@ -82,7 +82,13 @@ public class InventorChimpumDeleteService implements AbstractDeleteService<Inven
 	public void delete(final Request<Chimpum> request, final Chimpum entity) {
 		assert request != null;
 		assert entity != null;
-
+		
+		Item item;
+		
+		item = this.repository.findOneItemByChimpumId(entity.getId());
+		item.setChimpum(null);
+		
+		this.repository.save(item);
 		this.repository.delete(entity);
 	}
 

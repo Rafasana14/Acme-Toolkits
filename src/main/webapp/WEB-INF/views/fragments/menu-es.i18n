@@ -63,6 +63,7 @@ master.menu.inventor = Inventor
 master.menu.inventor.component.list-mine = Ver mis componentes
 master.menu.inventor.tool.list-mine = Ver mis herramientas
 master.menu.inventor.toolkit.list = Ver mis cajas de herramientas
+master.menu.inventor.chimpum.list-mine = Ver mis chimpum
 master.menu.inventor.my-patronage-reports = Ver mis reportes de patrocinio
 master.menu.inventor.patronage.list = Ver mis patrocinios
 

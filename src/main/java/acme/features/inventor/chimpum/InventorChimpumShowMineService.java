@@ -8,7 +8,6 @@ import acme.entities.Chimpum;
 import acme.entities.Item;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Request;
-import acme.framework.entities.Principal;
 import acme.framework.services.AbstractShowService;
 import acme.roles.Inventor;
 
@@ -27,19 +26,15 @@ public class InventorChimpumShowMineService implements AbstractShowService<Inven
 	public boolean authorise(final Request<Chimpum> request) {
 		assert request != null;
 
-		boolean result;
 		int id;
 		Item item;
 		Inventor inventor;
-		Principal principal;
 
 		id = request.getModel().getInteger("id");
 		item = this.repository.findOneItemByChimpumId(id);
 		inventor = item.getInventor();
-		principal = request.getPrincipal();
-		result = inventor.getUserAccount().getId() == principal.getAccountId();
 
-		return result;
+		return request.isPrincipal(inventor);
 	}
 
 	@Override
