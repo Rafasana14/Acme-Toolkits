@@ -31,7 +31,7 @@ public class InventorToolkitCreateService implements AbstractCreateService<Inven
 	@Override
 	public boolean authorise(final Request<Toolkit> request) {
 		assert request != null;
-		request.getModel();
+
 		return true;
 	}
 

@@ -1,5 +1,6 @@
 package acme.features.patron.patronage;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ import acme.features.spam.SpamDetector;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Errors;
 import acme.framework.controllers.Request;
+import acme.framework.datatypes.Money;
 import acme.framework.services.AbstractUpdateService;
 import acme.roles.Patron;
 
@@ -114,28 +116,24 @@ public class PatronPatronageUpdateService implements AbstractUpdateService<Patro
 		}
 		
 		if (!errors.hasErrors("startDate")) {
-			errors.state(request, entity.getStartDate().after(entity.getCreationMoment()), "startDate", "patron.patronage.form.error.past-start-date");
-		}
-		if(!errors.hasErrors("startDate")) {
 			final Date oneMonthAfterCreationDate = DateUtils.addMonths(entity.getCreationMoment(), 1);
-			errors.state(request,entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "patron.patronage.form.error.too-close");
+			errors.state(request, entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "patron.patronage.form.error.too-close", oneMonthAfterCreationDate);
 		}
-		
-		
-		if(!errors.hasErrors("endDate")) {
-			errors.state(request, entity.getEndDate().after(entity.getCreationMoment()), "endDate", "patron.patronage.form.error.past-end-date");
-		}
-		if(!errors.hasErrors("endDate")) {	
-			errors.state(request, entity.getEndDate().after(entity.getStartDate()), "endDate", "patron.patronage.form.error.end-date-previous-to-start-date");
-		}
-		if(!errors.hasErrors("endDate")) {
-			final Date oneMonthAfterStartDate=DateUtils.addMonths(entity.getStartDate(), 1);
-			errors.state(request,entity.getEndDate().equals(oneMonthAfterStartDate) || entity.getEndDate().after(oneMonthAfterStartDate), "endDate", "patron.patronage.form.error.insufficient-duration");
+
+		if (!errors.hasErrors("endDate") && !errors.hasErrors("startDate")) {
+			final Date oneMonthAfterStartDate = DateUtils.addMonths(entity.getStartDate(), 1);
+			errors.state(request, entity.getEndDate().equals(oneMonthAfterStartDate) || entity.getEndDate().after(oneMonthAfterStartDate), "endDate", "patron.patronage.form.error.insufficient-duration", oneMonthAfterStartDate);
 		}
 		
 
 		if (!errors.hasErrors("budget")) {
-			errors.state(request, entity.getBudget().getAmount() >= 1, "budget", "patron.patronage.form.error.minimum-budget");
+
+			final Money budget = entity.getBudget();
+			final boolean availableCurrency = this.validateAvailableCurrency(budget);
+			errors.state(request, availableCurrency, "budget", "patron.patronage.form.error.currency-not-available");
+
+			final boolean budgetPositive = budget.getAmount() > 0.;
+			errors.state(request, budgetPositive, "budget", "patron.patronage.form.error.budget-positive");
 		}
 		
 	}
@@ -147,5 +145,14 @@ public class PatronPatronageUpdateService implements AbstractUpdateService<Patro
 
 		this.repository.save(entity);
 	}
+	
+	public boolean validateAvailableCurrency(final Money money) {
+
+		final String currencies = this.scRepo.findAvailableCurrencies();
+		final List<Object> listOfAvailableCurrencies = Arrays.asList((Object[]) currencies.split(";"));
+
+		return listOfAvailableCurrencies.contains(money.getCurrency());
+	}
+
 
 }

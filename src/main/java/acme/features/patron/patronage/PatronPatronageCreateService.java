@@ -1,5 +1,7 @@
+
 package acme.features.patron.patronage;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -23,21 +25,23 @@ import acme.framework.services.AbstractCreateService;
 import acme.roles.Patron;
 
 @Service
-public class PatronPatronageCreateService implements AbstractCreateService<Patron, Patronage>{
+public class PatronPatronageCreateService implements AbstractCreateService<Patron, Patronage> {
 
 	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	protected PatronPatronageRepository repository;
-	
+	protected PatronPatronageRepository						repository;
+
 	@Autowired
 	protected AdministratorSystemConfigurationRepository	scRepo;
 
 	// AbstractCreateService<Patron, Patronage> interface -------------------------
-			
+
+
 	@Override
 	public boolean authorise(final Request<Patronage> request) {
 		assert request != null;
+
 		return true;
 	}
 
@@ -48,18 +52,18 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		assert errors != null;
 
 		Date currentMoment;
-		Integer inventorId;		
-		
+		Integer inventorId;
+
 		currentMoment = new Date(System.currentTimeMillis() - 1);
 		entity.setCreationMoment(currentMoment);
 		entity.setStatus(PatronageStatus.PROPOSED);
 		entity.setPublished(false);
-		
+
 		inventorId = Integer.valueOf(request.getModel().getAttribute("inventorId").toString());
 		entity.setInventor(this.repository.findInventorById(inventorId));
 
-		request.bind(entity, errors, "code", "legalStuff", "budget", "startDate", "endDate","moreInfo");
-		
+		request.bind(entity, errors, "code", "legalStuff", "budget", "startDate", "endDate", "moreInfo");
+
 	}
 
 	@Override
@@ -68,14 +72,14 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		assert entity != null;
 		assert model != null;
 
-		request.unbind(entity, model, "status" ,"code", "legalStuff", "budget", "startDate","endDate","moreInfo","published");
+		request.unbind(entity, model, "status", "code", "legalStuff", "budget", "startDate", "endDate", "moreInfo", "published");
 		model.setAttribute("inventors", this.repository.findInventors());
-		
+
 	}
 
 	@Override
 	public Patronage instantiate(final Request<Patronage> request) {
-		
+
 		assert request != null;
 
 		final Patronage result = new Patronage();
@@ -89,23 +93,20 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 		final Patron patron = this.repository.findOnePatronById(principalId);
 
 		moment = new Date(System.currentTimeMillis() - 1);
-		
+
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(moment);
 		cal.add(Calendar.MONTH, 2);
 		startDate = cal.getTime();
-		
+
 		cal.add(Calendar.MONTH, 2);
 		endDate = cal.getTime();
-		
+
 		budget = new Money();
 		budget.setAmount(1.0);
 		budget.setCurrency("EUR");
-		
-		
 
 		result.setPatron(patron);
-		result.setCreationMoment(moment);
 		result.setStatus(PatronageStatus.PROPOSED);
 		result.setCode("");
 		result.setLegalStuff("");
@@ -118,11 +119,16 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 	}
 
 	@Override
-	public void validate(final Request<Patronage> request, final Patronage entity, final Errors errors) {		
+	public void validate(final Request<Patronage> request, final Patronage entity, final Errors errors) {
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
-		
+
+		Date moment;
+
+		moment = new Date(System.currentTimeMillis() - 1);
+		entity.setCreationMoment(moment);
+
 		final SystemConfiguration sc = this.scRepo.findSystemConfigurationById();
 		final String[] parts = sc.getStrongSpam().split(";");
 		final String[] parts2 = sc.getWeakSpam().split(";");
@@ -136,7 +142,7 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 
 			errors.state(request, spam1, "legalStuff", "patron.patronage.form.label.spam", "spam");
 		}
-		
+
 		if (!entity.getMoreInfo().equals("") && entity.getMoreInfo() != null) {
 			final boolean spam2 = SpamDetector.validateNoSpam(entity.getMoreInfo(), weakSpam, sc.getWeakThreshold()) && SpamDetector.validateNoSpam(entity.getMoreInfo(), strongSpam, sc.getStrongThreshold());
 
@@ -149,50 +155,47 @@ public class PatronPatronageCreateService implements AbstractCreateService<Patro
 			existing = this.repository.findOnePatronageByCode(entity.getCode());
 			errors.state(request, existing == null, "code", "patron.patronage.form.error.duplicated");
 		}
-		
-		
-		
+
 		if (!errors.hasErrors("startDate")) {
-			errors.state(request, entity.getStartDate().after(entity.getCreationMoment()), "startDate", "patron.patronage.form.error.past-start-date");
-		}
-		if(!errors.hasErrors("startDate")) {
 			final Date oneMonthAfterCreationDate = DateUtils.addMonths(entity.getCreationMoment(), 1);
-			errors.state(request,entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "patron.patronage.form.error.too-close");
+			errors.state(request, entity.getStartDate().equals(oneMonthAfterCreationDate) || entity.getStartDate().after(oneMonthAfterCreationDate), "startDate", "patron.patronage.form.error.too-close", oneMonthAfterCreationDate);
 		}
-		
-		
-		if(!errors.hasErrors("endDate")) {
-			errors.state(request, entity.getEndDate().after(entity.getCreationMoment()), "endDate", "patron.patronage.form.error.past-end-date");
+
+		if (!errors.hasErrors("endDate") && !errors.hasErrors("startDate")) {
+			final Date oneMonthAfterStartDate = DateUtils.addMonths(entity.getStartDate(), 1);
+			errors.state(request, entity.getEndDate().equals(oneMonthAfterStartDate) || entity.getEndDate().after(oneMonthAfterStartDate), "endDate", "patron.patronage.form.error.insufficient-duration", oneMonthAfterStartDate);
 		}
-		if(!errors.hasErrors("endDate")) {	
-			errors.state(request, entity.getEndDate().after(entity.getStartDate()), "endDate", "patron.patronage.form.error.end-date-previous-to-start-date");
-		}
-		if(!errors.hasErrors("endDate")) {
-			final Date oneMonthAfterStartDate=DateUtils.addMonths(entity.getStartDate(), 1);
-			errors.state(request,entity.getEndDate().equals(oneMonthAfterStartDate) || entity.getEndDate().after(oneMonthAfterStartDate), "endDate", "patron.patronage.form.error.insufficient-duration");
-		}
-		
-		
+
 		if (!errors.hasErrors("budget")) {
-			errors.state(request, entity.getBudget().getAmount() >= 1, "budget", "patron.patronage.form.error.minimum-budget");
+
+			final Money budget = entity.getBudget();
+			final boolean availableCurrency = this.validateAvailableCurrency(budget);
+			errors.state(request, availableCurrency, "budget", "patron.patronage.form.error.currency-not-available");
+
+			final boolean budgetPositive = budget.getAmount() > 0.;
+			errors.state(request, budgetPositive, "budget", "patron.patronage.form.error.budget-positive");
 		}
-		
+
 	}
 
 	@Override
 	public void create(final Request<Patronage> request, final Patronage entity) {
-		
+
 		assert request != null;
 		assert entity != null;
-		
-		Date currentMoment;
-		
-		currentMoment = new Date(System.currentTimeMillis() - 1);
-		entity.setCreationMoment(currentMoment);
+
 		entity.setPublished(false);
-		
+
 		this.repository.save(entity);
-		
+
+	}
+
+	public boolean validateAvailableCurrency(final Money money) {
+
+		final String currencies = this.scRepo.findAvailableCurrencies();
+		final List<Object> listOfAvailableCurrencies = Arrays.asList((Object[]) currencies.split(";"));
+
+		return listOfAvailableCurrencies.contains(money.getCurrency());
 	}
 
 }

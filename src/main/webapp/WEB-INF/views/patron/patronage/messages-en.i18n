@@ -50,7 +50,8 @@
  patron.patronage.form.error.end-date-previous-to-start-date = The end date must be after the start date
  patron.patronage.form.error.too-close = The start date is too close to creation moment (1 month between minimum)
  patron.patronage.form.error.insufficient-duration = The duration must be at least one month
- patron.patronage.form.error.minimum-budget = The budget must be equals or higher than 1
+ patron.patronage.form.error.budget-positive = The budget must be equals or higher than 1
+ patron.patronage.form.error.currency-not-available = Currency not available for the system
  patron.patronage.form.button.create = Create
  patron.patronage.form.button.update = Update
  patron.patronage.form.button.delete = Delete

@@ -1,4 +1,4 @@
 recordIndex,name,code,technology,description,retail-price,more-info
-0,h,AAA-000-A,java,description-1,"EUR 0.10",http://www.example.com
-1,llave inglesa,ZAC-999-A,t,description-7,"EUR 5,321.22",http://www.gatos.com
-2,memoria mecánica,QWW-122-H,tecnologia mecánica,description 14,"USD 1.00",http://www.gatos.com
+0,h,AAA-000-A,java,description-1,EUR 0.10,http://www.example.com
+1,llave inglesa,ZAC-999-A,java,description-7,"EUR 5,321.22",http://www.gatos.com
+2,memoria mecánica,QWW-122-H,tecnologia mecánica,description 14,USD 1.00,http://www.gatos.com
